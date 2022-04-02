@@ -1,0 +1,299 @@
+.blackboard{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(23,64,50);
+}
+.basic_menu{
+    position: fixed;
+    width: 35%;/*用百分比定位，每个按钮分配7%的空间。因为班级电脑就是1920*1080的，所以直接分配即可*/
+    left: 32.5%;
+    height: 60px;
+    bottom: 0;
+    background-color: aliceblue;
+    border: 1px solid aliceblue;
+    border-radius: 5px;
+    z-index: 2;
+}
+.sub_menu{
+    position: fixed;
+    right: 0;
+    height: 40%;
+    top: 30%;
+    width: 40px;
+    background-color:rgb(240,248,255);
+    border-radius: 5px;
+    z-index: 2;
+    text-align: center;
+    
+}
+.basic_item{
+    /*底部每一项按钮样式*/
+    position: relative;
+    width: 14.2%;
+    float: left;
+    text-align: center;
+    border-radius: 5px;
+    height: 100%;
+    transition-duration: 0.4s;/*设置时间，为过渡动画效果做准备*/
+}
+.sub_item{
+    transition-duration: 0.4s;
+}
+.basic_main{
+    /*默认设置底部详情内容不显示*/
+    display: none;
+}
+
+#color_main{
+    position: fixed;
+    bottom: 70px;
+    left: 36%;
+    width: 170px;
+    height: 60px;
+    z-index: 3;
+    background-color: aliceblue;
+    border-radius: 10px;
+    animation: up1 0.5s;
+}
+#weight_main{
+    position: fixed;
+    bottom: 70px;
+    left: 40%;
+    width: 170px;
+    height: 80px;
+    z-index: 3;
+    background-color: aliceblue;
+    border-radius: 10px;
+    animation: up1 0.5s;
+}
+#eraser_main_2{
+    position: fixed;
+    bottom: 70px;
+    left: 45%;
+    width: 170px;
+    height: 80px;
+    z-index: 3;
+    background-color: aliceblue;
+    border-radius: 10px;
+    animation: up1 0.5s;
+}
+@keyframes up1{
+    0%{
+        bottom: 0;
+    }
+    100%{
+        bottom: 70px;
+    }
+}
+.close{
+    position: absolute;
+    right: 10px;
+    z-index: 4;
+    font-size: 20px;
+}
+.sub_main{
+    display: none;
+    position: fixed;
+    right: 50px;
+    width: 200px;
+    height: 50%;
+    top: 25%;
+    background-color: aliceblue;
+    border-radius: 5px;
+    animation: right1 0.6s;
+    overflow-y: auto;
+}
+@keyframes right1{
+    0%{
+        right: 0%;
+        opacity: 0.3;
+    }
+    100%{
+        right: 50px;
+        opacity: 1;
+    }
+}
+.line{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+    left: 10%;
+    height: 2px;
+    background-color: rgb(4,140,190);
+}
+.tool_list .tool_title{
+    padding-left: 20px;
+    color: rgb(4,140,190);
+    font-size: 20px;
+    font-weight: bold;
+}
+.tool_list .tool_main{
+    padding-left: 20px;
+    color: gray;
+    font-size: 16px;
+}
+.tool_items{
+    position: relative;
+    width: 300px;
+    overflow: hidden;
+    z-index: 5;
+    resize: both;
+}
+.tool_img{
+    cursor: move;
+    resize: both;
+}
+#translate_iframe{
+    position:absolute;
+    width: 1000px;
+    top: 200px;
+    left: 400px;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 10px;
+    animation: float 0.6s;
+    float: left;
+    z-index: 6;
+}
+.translate_close button{
+    border: 0ch;
+    position: absolute;
+    top: 180px;
+    left: 1330px;
+    width: 70px;
+    font-size: 16px;
+    border-radius: 3px;
+    background-color: aquamarine;
+    z-index: 7;
+    cursor:pointer;
+}
+@keyframes float{
+    0%{
+        transform: scale(0.4);
+        opacity: 0.2;
+        top: 0;
+    }
+    100%{
+        opacity: 1;
+        top: 200px;
+    }
+}
+.info_panel{
+    position:fixed;
+    display: none;
+    left: 500px;
+    top: 150px;
+    width: 800px;
+    height: 600px;
+    background-color: aliceblue;
+    box-shadow: 2px 2px 3px gray;
+    border-radius: 5px;
+    z-index: 7;
+    animation: show 0.4s;
+}
+@keyframes show{
+    0%{
+        transform: scale(0.2);
+        opacity: 0.3;
+    }
+    100%{
+        scale: 1;
+        opacity: 1;
+    }
+}
+.info_panel .info_close{
+    position: absolute;
+    top: 10px;
+    font-size: 16px;
+    right: 10px;
+}
+.info_panel .info_title{
+    top: 25px;
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.info_panel .info_text{
+    position: relative;
+    left: 30px;
+    font-size: 18px;
+    color: gray;
+    line-height: 25px;
+    text-align: left;
+}
+#first_text{
+    position: absolute;
+    top: 60px;
+}
+#first_fun{
+    position: absolute;
+    top: 128px;
+}
+#eraser_panel_2{
+    display: none;
+}
+/*设置初始化按钮样式*/
+.basic_menu #write{
+    border-radius: 5px;
+    background-color: rgb(48, 179, 231);
+}
+.basic_menu #write i{
+    color: aliceblue;
+}
+.basic_menu #write span{
+    color: aliceblue;
+}
+/* 设置鼠标悬停的按钮样式 */
+.basic_item:hover{
+    border-radius: 5px;
+    background-color: rgb(48, 179, 231);
+}
+.basic_item:hover i{
+    color: aliceblue;
+}
+.basic_item:hover span{
+    color: aliceblue;
+}
+.sub_item:hover{
+    border-radius: 5px;
+    background-color: rgb(24, 224, 124);
+}
+.sub_item:hover i{
+    color: yellow;
+}
+.sub_item:hover span{
+    color: yellow;
+}
+/*鼠标悬停样式设置完毕*/
+.basic_item .layui-icon{
+    /* 底部菜单图标样式 */
+    color: rgb(102,102,102);
+    font-size: 28px;
+    text-align: center;
+}
+.basic_item span{
+    font-size: 18px;
+    text-align: center;
+}
+.sub_menu .title{
+    position: relative;
+    top: 10px;
+    font-size: 18px;
+    color: rgb(102,102,102);
+    text-align: center;
+}
+.sub_menu .sub_item{
+    position: relative;
+    top: 0;
+    height: 16.6%;
+}
+.sub_item .layui-icon{
+    color: rgb(102,102,102);
+    font-size: 30px;
+    text-align: center;
+}
