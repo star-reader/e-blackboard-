@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!-- 
+    由Chunhao Jin制作，纯前端设计的班级电子黑板系统
+    高二(10)班专用
+ -->
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子黑板系统-高二(10)班专用-Powered by JCH WorkStation</title>
+    <link rel="stylesheet" href="../asset/style.css">
+    <link rel="shortcut icon" href="../public/logo.png" type="image/x-icon">
+    <script src="../asset/main.js"></script>
+    <script src="../api/jquery/jquery.min.js"></script>
+    <script src="../asset/dom.js"></script>
+    <script src="../asset/tool.js"></script>
+    <link rel="stylesheet" href="../public/layui.css">
+    <link rel="stylesheet" href="../asset/trans.css">
+    <style>
+        /* 设置禁止窗口随意滚动 */
+        body{
+            touch-action: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- blackboard：黑板主体，默认为窗口整体界面 -->
+    <div class="blackboard">
+        <canvas id="can" width="1920px" height="1080px"></canvas><!-- 创建一个画布元素-->
+    </div>
+    <!-- basic_menu：底部基础菜单主体页面 -->
+    <div class="basic_menu">
+        <div class="basic_item" id="write">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-edit"></i><br>
+                <span>粉笔书写</span></a>
+        </div>
+        <div class="basic_item" id="color">
+            <a href="javascript:openColor();">
+                <i class="layui-icon layui-icon-fonts-clear"></i><br>
+                <span>颜色选择</span>
+            </a>
+        </div>
+        <div class="basic_item" id="weight">
+            <a href="javascript:openWeight();">
+                <i class="layui-icon layui-icon-menu-fill"></i><br>
+                <span>粗细调整</span>
+            </a>
+        </div>
+        <div class="basic_item" id="eraser">
+            <a href="javascript:openEraser();">
+                <!-- <a href="javascript:eraser();"> -->
+                <i class="layui-icon layui-icon-note"></i><br>
+                <span>橡皮工具</span>
+            </a>
+        </div>
+        <div class="basic_item" id="clear">
+            <a href="javascript:;">
+                <i class="layui-icon layui-icon-delete"></i><br>
+                <span>清除本页</span>
+            </a>
+        </div>
+        <div class="basic_item" id="add">
+            <a href="javascript:newTab();">
+                <i class="layui-icon layui-icon-addition"></i><br>
+                <span>新建一页</span>
+            </a>
+        </div>
+
+        <div class="basic_item" id="info">
+            <a href="javascript:openInfo();">
+                <i class="layui-icon layui-icon-about"></i><br>
+                <span>开发说明</span>
+            </a>
+        </div>
+    </div>
+    <!-- sub_menu：右侧学科工具的主体页面 -->
+    <div class="sub_menu">
+        <div class="sub_item">
+            <span class="title">学科工具</span>
+        </div>
+        <div class="sub_item" id="math">
+            <a href="javascript:openMath();">
+                <i class="layui-icon layui-icon-list"></i><br>
+                <span>数学</span>
+            </a>
+        </div>
+        <div class="sub_item" id="eng">
+            <a href="javascript:openEng();">
+                <i class="layui-icon layui-icon-tabs"></i><br>
+                <span>英语</span>
+            </a>
+        </div>
+        <div class="sub_item" id="phy">
+            <a href="javascript:openPhy();">
+                <i class="layui-icon layui-icon-find-fill"></i><br>
+                <span>物理</span>
+            </a>
+        </div>
+        <div class="sub_item" id="che">
+            <a href="javascript:openChe();">
+                <i class="layui-icon layui-icon-water"></i><br>
+                <span>化学</span>
+            </a>
+        </div>
+        <div class="sub_item" id="other">
+            <a href="javascript:openOther();">
+                <i class="layui-icon layui-icon-engine"></i><br>
+                <span>其他</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- 底部操作详情页面 -->
+    <div>
+        <div class="basic_main" id="color_panel">
+            <div id="color_main">
+                <a href="javascript:closePanel_1();" class="close" id="color_close">X</a>
+                <label style="font-size: 20px;"><br>&nbsp;&nbsp;粉笔颜色:</label>
+                <input type="color" value="#FFFFFF" id="select_color">
+            </div>
+        </div>
+        <div class="basic_main" id="weight_panel">
+            <div id="weight_main">
+                <a href="javascript:closePanel_2();" class="close" id="weight_close">X</a>
+                <label style="font-size: 20px;"><br>&nbsp;&nbsp;粉笔粗细:</label>
+                <input style="margin-left: 20px;" id="select_range" type="range" min="1" max="50" value="3">
+            </div>
+        </div>
+        <div class="basic_main" id="eraser_panel" style="display: none;">
+            <div id="eraser_main">
+                <a href="javascript:;" class="close" id="color_close">X</a>
+                <label style="font-size: 20px;"><br>&nbsp;&nbsp;橡皮颜色:</label>
+                <input type="color" value="#174032" id="select_eraser">
+            </div>
+        </div>
+        <div class="basic_main" id="eraser_panel_2">
+            <div id="eraser_main_2">
+                <a href="javascript:closeEraser();" class="close" id="weight_close">X</a>
+                <label style="font-size: 20px;"><br>&nbsp;&nbsp;橡皮粗细:</label>
+                <input style="margin-left: 20px;" id="select_eraser_2" type="range" min="1" max="50" value="20">
+            </div>
+        </div>
+    </div>
+    <!-- 右侧学科工具弹出详情页面 -->
+    <div>
+        <div class="sub_main" id="math_panel">
+            <a href="javascript:close();" class="close" id="math_close">X</a>
+            <span style="font-size: 20px;text-align: center;"><br>&nbsp;&nbsp;数学学科工具</span>
+            <div class="tool_list" id="Math_triangle">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">直角三角形</div>
+                    <div class="tool_main">几何-直角三角形工具</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Math_circle">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">圆型</div>
+                    <div class="tool_main">几何-圆型工具</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Math_cube">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">正方体模型</div>
+                    <div class="tool_main">几何-正方体模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Math_cube_clear">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">正方体模型(透明)</div>
+                    <div class="tool_main">透明的正方体模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Math_cone">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">圆柱模型</div>
+                    <div class="tool_main">几何-圆柱模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Math_Coordinate_axis">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">坐标轴</div>
+                    <div class="tool_main">坐标轴工具</div>
+                </a>
+            </div>
+        </div>
+        <div class="sub_main" id="eng_panel">
+            <a href="javascript:close();" class="close" id="eng_close">X</a>
+            <span style="font-size: 20px;text-align: center;"><br>&nbsp;&nbsp;英语学科工具</span>
+            <div class="tool_list" id="Translate_API">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">在线翻译</div>
+                    <div class="tool_main">程序已连接必应翻译API，可提供在线翻译(需联网)</div>
+                </a>
+            </div>
+        </div>
+        <div class="sub_main" id="phy_panel">
+            <a href="javascript:close();" class="close" id="phy_close">X</a>
+            <span style="font-size: 20px;text-align: center;"><br>&nbsp;&nbsp;物理学科工具</span>
+            <div class="tool_list">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">空</div>
+                    <div class="tool_main">这里什么都没有~后续会进行补充的~</div>
+                    <div class="tool_main">undefined</div>
+                </a>
+            </div>
+        </div>
+        <div class="sub_main" id="che_panel">
+            <a href="javascript:close();" class="close" id="che_close">X</a>
+            <span style="font-size: 20px;text-align: center;"><br>&nbsp;&nbsp;化学学科工具</span>
+            <div class="tool_list" id="Che_benzene">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">苯</div>
+                    <div class="tool_main">标准的苯的模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Che_cell_clear">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">晶胞(空)</div>
+                    <div class="tool_main">晶胞模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Che_cell_simple">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">晶胞-简单立方</div>
+                    <div class="tool_main">简单立方晶胞模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Che_cell_side">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">晶胞-面心立方</div>
+                    <div class="tool_main">面心立方晶胞模型</div>
+                </a>
+            </div>
+            <div class="tool_list" id="Che_h2o">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">水分子模型</div>
+                    <div class="tool_main">高清水分子模型</div>
+                </a>
+            </div>
+        </div>
+        <div class="sub_main" id="other_panel">
+            <a href="javascript:close();" class="close" id="other_close">X</a>
+            <span style="font-size: 20px;text-align: center;"><br>&nbsp;&nbsp;$subject+"学科工具</span>
+            <div class="tool_list" id="bilibili">
+                <div class="line"></div>
+                <a href="https://space.bilibili.com/430844982" target="_black">
+                    <div class="tool_title">个人B站空间</div>
+                    <div class="tool_main">欢迎来探索哦~，这里是2021年bilibili百小UP主</div>
+                </a>
+            </div>
+            <div class="tool_list" id="skyline">
+                <div class="line"></div>
+                <a href="https://skylineflyleague.cn/" target="_black">
+                    <div class="tool_title">我的兴趣网站&我的平台</div>
+                    <div class="tool_main">个人兴趣爱好平台</div>
+                </a>
+            </div>
+            <div class="tool_list" id="tip">
+                <div class="line"></div>
+                <a href="javascript:;">
+                    <div class="tool_title">小彩蛋</div>
+                    <div class="tool_main"><span>这个黑板里有彩蛋哦~在哪？欢迎自行探索<br> b（￣▽￣）d　</span></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="tool_items" id="tool_items">
+        <!-- <img src="../resource/Math_triangle.png" width="100%"> -->
+    </div>
+
+    <iframe src="https://cn.bing.com/translator/" id="translate_iframe" style="display: none;" frameborder="0"></iframe>
+    <div class="translate_close"><span>
+            <button id="translate_button" style="display: none;" onclick="javascript:closeTranslate();">点击关闭</button>
+        </span></div>
+    <div class="info_panel">
+        <span class="info_close"><a href="javascript:closeInfo();">X</a></span>
+        <span class="info_title">电子黑板项目开发笔记 （v1.1）</span>
+        <span class="info_text" id="first_text">耗时一个晚上+一个上午打造的电子黑板，纯前端设计</span><br><br><br>
+        <br>
+        <span class="info_title">电子黑板功能特点</span>
+        <span class="info_text" id="first_fun">- &nbsp;完整模拟传统黑板书写</span><br>
+        <span class="info_text"><br> </span>
+        <span class="info_text"><br>- &nbsp;多功能操作，调整粉笔颜色、粗细</span>
+        <span class="info_text"><br>- &nbsp;快捷加页、翻页</span>
+        <span class="info_text"><br>- &nbsp;内置学科工具，提高课堂效率，画图更标准</span>
+        <span class="info_text"><br>- &nbsp;接入必应翻译API，实现线上翻译功能</span>
+        <span class="info_text"><br>- &nbsp;web应用程序构建，启动速度更快</span>
+        <span class="info_text"><br>- &nbsp;更多功能将会在以后根据技术能力和实际需要添加</span>
+        <span class="info_text" style="color:orange;"><br>- &nbsp;更新v1.1：修复了触摸屏的问题、更新部分API和代码，修复亿些bug</span>
+        <br>
+        <span class="info_title">开发工具列表</span>
+        <span class="info_text"><br></span>
+        <span class="info_text"><br>- &nbsp;Leaflet API应用程序接口</span>
+        <span class="info_text"><br>- &nbsp;JavaScript Canvas画图插件</span>
+        <span class="info_text"><br>- &nbsp;Node.js的JavaScript工具库</span>
+        <span class="info_text"><br>- &nbsp;LayUI以及IconFont</span>
+        <span class="info_text" style="color: darkorange;"><br>- &nbsp;jQuery框架 <br>
+            &nbsp;&nbsp;什么？这玩意用的jQuery？你问我为啥不用Vue开发？答案是我不会vue (/doge，<br>&nbsp;&nbsp;vue嘛。。在学了在学了(</span>
+
+    </div>
+</body>
+
+</html>
