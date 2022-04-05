@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子黑板系统-应用程序启动中</title>
+    <!-- 主程序在src/program.html，为啥先做这个呢？是直接加载那个html有些插件读不出来，我也不知道为啥
+    所以先写个半分钟左右的预加载页面
+    - 为啥我把文件夹设置成这样？我也不知道，之前开发习惯了这样命名 -->
+    <!--api文件夹：API文件信息，包括leaflet、canvas插件、jQuery之类的
+        asset文件夹，是一些JavaScript、css文件
+        font是iconfont用的
+        public有layui的元素和module
+        resource主要是一些用得到的资源文件
+        src里的html是实际程序主入口-->
+</head>
+<link rel="stylesheet" href="public/layui.css">
+<link rel="stylesheet" href="asset/init.css">
+<link rel="shortcut icon" href="public/logo.png" type="image/x-icon">
+<script src="asset/init.js"></script>
+<style>
+    body{
+        background-image: url("resource/background.png");
+        width: 100%;
+    }
+</style>
+<body>
+    <div class="title">
+        <span>欢迎使用电子黑板，程序启动中 ... </span>
+    </div>
+    <div class="logo">
+        <img src="resource/init.png" alt="init" width="100%">
+    </div>
+    <div class="load">
+        <i class="layui-icon layui-icon-loading layui-icon layui-anim layui-anim-rotate layui-anim-loop" style="font-size: 60px;"></i>
+    </div>
+    <div class="status">
+        <span id="status_text"></span>
+    </div>
+</body>
+</html>
